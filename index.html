@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page HTML site terroirs</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1em;
+            text-align: center;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1em;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        #logos-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        #logos-container img {
+            margin-left: 10px;
+            height: 30px; /* Ajustez la taille selon vos besoins */
+        }
+
+        .iframe-visible {
+            display: block;
+        }
+
+        .iframe-hidden {
+            display: none;
+        }
+
+        iframe {
+            width: 100%;
+            height: 3500;
+        }
+    </style>
+
+    <!-- Lien du premier logo -->
+    <link rel="icon" href="https://private.administration-lalana.com/upload/actualite/673d9454393ada42df4a3b2795139b6d.jpg" type="image/x-icon">
+
+    <!-- Lien du deuxième logo -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://th.bing.com/th/id/R.6beb5820e61b26f2712ace8b79e82bff?rik=tVxOmjB%2fL6D3AA&riu=http%3a%2f%2fprimaryfacts.com%2fwp-content%2fuploads%2f2014%2f10%2fFlag-of-Madagascar.jpg&ehk=GuIr%2b1ToFL8bY6GDKVwDsCx9EzPGCb070%2f%2b2sBtbNrQ%3d&risl=&pid=ImgRaw&r=0">
+
+    <!-- Lien du troisième logo -->
+    <link rel="apple-touch-icon" sizes="180x180" href="https://th.bing.com/th/id/OIP.B11fe9Tn2mJTQn7_oZ2uxgHaE8?rs=1&pid=ImgDetMain">
+</head>
+
+<body>
+
+    <header>
+        <h1>SNAPSHOT Sites terroirs AFAFI</h1>
+    </header>
+
+    <main>
+        <h2>SNAPSHOT Sites terroirs AFAFI</h2>
+        <div style="position: relative;">
+            <iframe id="powerBIiframe" height="800" src="https://app.powerbi.com/view?r=eyJrIjoiZTA5MDMzZTctNTlmNS00MjM2LTk0MTEtODZmZDczODBlMmZjIiwidCI6Ijk4N2ZiZjNlLWYxNjMtNDYxYi04MGJkLTQzY2EzZjNiOGMzYiIsImMiOjl9"></iframe>
+        </div>
+    </main>
+
+    <main>
+        <h2>Cartographie sites terroirs</h2>
+        <label for="listeIframes">Sélectionnez un iframe :</label>
+        <select id="listeIframes" onchange="changerIframe()">
+            <option value="lien1">ST Ianabinda</option>
+            <option value="lien2">Iframe 2</option>
+        </select>
+
+        <div id="conteneurIframes">
+            <!-- L'iframe sera ajoutée ici -->
+        </div>
+    </main>
+
+    <script>
+        var iframeActive; // Variable pour suivre l'iframe active
+
+        // Appel initial pour activer le lien 1 par défaut
+        changerIframe();
+
+        function changerIframe() {
+            // Récupérer la valeur sélectionnée dans la liste déroulante
+            var selectedLink = document.getElementById("listeIframes").value;
+
+            // Récupérer le conteneur de l'iframe
+            var conteneurIframes = document.getElementById("conteneurIframes");
+
+            // Supprimer l'ancienne iframe s'il y en a une
+            if (iframeActive) {
+                iframeActive.classList.remove("iframe-visible");
+                iframeActive.classList.add("iframe-hidden");
+            }
+
+            // Créer une nouvelle iframe
+            var nouvelleIframe = document.createElement("iframe");
+            nouvelleIframe.src = obtenirURL(selectedLink);
+
+            // Ajuster la largeur de l'iframe de 10% (multiplier par 1.1)
+            nouvelleIframe.width = Math.round(1.1 * parseInt("1000")); // Ajustez la valeur initiale si nécessaire
+            nouvelleIframe.height = "800";
+
+            // Ajouter la nouvelle iframe au conteneur
+            conteneurIframes.appendChild(nouvelleIframe);
+
+            // Mettre à jour l'iframe active
+            iframeActive = nouvelleIframe;
+            iframeActive.classList.add("iframe-visible");
+
+            // Imprimer le contenu de l'iframe Power BI
+            if (selectedLink === "lien1") {
+                imprimerIframe(iframeActive.id);
+            }
+        }
+
+        // Fonction pour obtenir l'URL en fonction de la sélection
+        function obtenirURL(selectedLink) {
+            // Ajoutez vos liens correspondants ici
+            var liens = {
+                lien1: "https://www.arcgis.com/apps/instant/interactivelegend/index.html?appid=5c83137920b4432abf708e6994043a97",
+                lien2: "lien_iframe2.html"
+                // Ajoutez les autres liens correspondants
+            };
+
+            return liens[selectedLink];
+        }
+
+        // Fonction pour imprimer le contenu de l'iframe
+        function imprimerIframe(iframeId) {
+            var iframe = document.getElementById(iframeId);
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.focus();
+                iframe.contentWindow.print();
+            } else {
+                console.warn("L'iframe n'est pas encore complètement chargée. L'impression peut ne pas inclure tous les éléments.");
+            }
+        }
+    </script>
+
+    <!-- Logos en haut à droite -->
+    <div id="logos-container">
+        <img src="https://private.administration-lalana.com/upload/actualite/673d9454393ada42df4a3b2795139b6d.jpg" alt="Logo 1">
+        <img src="https://www.icône.com/images/icones/4/5/flag-mg.png" alt="Logo 2">
+        <img src="https://th.bing.com/th/id/OIP.B11fe9Tn2mJTQn7_oZ2uxgHaE8?rs=1&pid=ImgDetMain" alt="Logo 3">
+    </div>
+
+</body>
+
+</html>
